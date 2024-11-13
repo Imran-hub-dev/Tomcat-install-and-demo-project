@@ -1,0 +1,102 @@
+	<<<<<< go to aws console >>>>>>
+>>> login
+>>> ec2
+>>> Launch Instance
+>>> Name : Tomcat
+>>> Quick Start : Amazon Linux
+>>> Key pair name : Name Any and After Click On Create new key pair and Download it.
+>>> Launch Instance
+>>> Goto Instance
+>>> Refresh
+>>> Click On Tomcat and click on Connect
+>>> Copy The SSH (Ex- ssh -i "PROJECT-1.pem" ec2-user@ec2-54-242-31-21.compute-1.amazonaws.com)
+>>> open the Git Bash Or Vs COde Or Any Terminal
+>>> CD to Downloads (Ex- cd downloads/)
+>>> paste The Copied SSH Here and HIT ENTER
+>>> write yes and HIT ENTER
+>>> connected to the server
+>>> then goto Root User with (sudo -i)
+>>> install java package (yum whatprovides java)
+>>> select and copy required java version
+>>> then type yum and paste the java version -y (ex- yum java-11-amazon-corretto-1:11.0.18+10-1.amzn2023.x86_64 -y)
+          or
+>>> use this:-
+
+# Step 1: Import the Corretto Public Key
+sudo rpm --import https://yum.corretto.aws/corretto.key
+
+# Step 2: Install the yum Repository
+sudo curl -L -o /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
+
+# Step 3: Install Amazon Corretto 11
+sudo yum install -y java-11-amazon-corretto-devel
+
+>>> we check with (java -version) it for java installed or not
+>>> type yum update for package updates
+>>> typr yum upgrade for upgrade the packages
+>>> then install tomcat goto Tomcat official site (https://tomcat.apache.org)
+>>> click on Tomcat9 and copy the tar file link (https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.97/bin/apache-tomcat-9.0.97.tar.gz)
+>>> go back to the terminal
+>>> wget and paste the tar file link (Ex- wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.97/bin/apache-tomcat-9.0.97.tar.gz)
+>>> [root@ip-172-31-26-116 ~]# ls (it's Look Like Below)
+			*** apache-tomcat-9.0.97.tar.gz ***
+>>> unzip the tar file with below syntax
+	*** tar -xvzf apache-tomcat-9.0.97.tar.gz ***
+>>> sudo mv apache-tomcat-9.0.97 /opt/
+>>> cd to opt folder (cd /opt)
+>>> Do ls 
+>> it's Looks like below
+	*** [root@ip-172-31-26-116 opt]# ls ***
+		*** 1- apache-tomcat-9.0.97  2- aws ***
+>>> then add user (Ex- useradd tomcat)
+	 add password (Ex- passwd tomcat (create password-123, retype password-123))
+>>> then
+>>> change direction to conf folder (Ex- cd /conf)
+>>> Do ls
+>>> there are Some files (Ex-tomcat-users.xml, tomcat.txt, etc....)
+>>> edit the tomcat-users.xml file with Vi Editor  
+	*** vi tomcat-users.xml ***
+>>> write below syntax in that file
+ 					<tomcat-users>
+					  <role rolename="manager-gui"/>
+					  <user username="tomcat" password="tomcat" roles="manager-gui"/>
+					</tomcat-users>
+>>> then save and exit the file (Esc+Shift+colon+wq!- :wq!)
+>>> if we want to see our edited file with the use cat viewer
+	*** cat tomcat-users.xml ***
+>>> back to home (cd .. or cd ~)
+>>> then Do ls -l
+>>> then change the direction into bin (cd bin/)
+>>> Do ls
+>>> you see there some files (startup.sh, shutdown.sh, etc....)
+>>> start tomcat with the below syntax 
+	*** sh startup.sh ***
+>>> login as a user with username (su - tomcat)
+>>> cd ..
+>>>  ls
+>>> cd webapps
+>>> ls
+>>> cd manager
+>>> ls
+>>> cd META-INF
+>>> ls
+>>> there are some files (context.xml, etc....)
+>>> edit the context.xml file with vi editor
+	*** vi context.xml ***
+>>> Change the file like below
+	 <!--
+          Valve className="org.apache.catalina.valves.RemoteAddrValve"
+  allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" />
+          -->
+>>> then save and exit the file (Esc+Shift+colon+wq!- :wq!)
+>>> cd to bin (cd bin/)
+>>> ls
+>>> type sh shutdown.sh for stop tomcat service
+>>> type sh startup.sh to start tomcat service
+>>> login the server with 8080 port (Ex- 54.242.31.21:8080)
+
+
+
+
+
+
